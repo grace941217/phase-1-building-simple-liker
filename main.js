@@ -2,7 +2,62 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
+let modal = document.querySelector('.hidden')
 // Your JavaScript code goes here!
+const articleHearts = document.querySelectorAll(".like-glyph");
+function likeCallback(e) {
+  const heart = e.target;
+  mimicServerCall("bogusUrl")
+    .then(function(){
+      if ( heart.innerText === EMPTY_HEART) {
+        heart.innerText = FULL_HEART;
+        // heart.style.color = "red";
+        heart.className = "activated-heart";
+      } else {
+        heart.innerText = EMPTY_HEART;
+        // heart.style.color = "";
+        heart.className = "";
+      }
+    })
+    .catch(function(error) {
+      const modal = document.getElementById("modal");
+      modal.className = "";
+      modal.innerText = error;
+      setTimeout(() =>  modal.className = "hidden", 3000);
+    });
+}
+for (const glyph of articleHearts) {
+  glyph.addEventListener("click", likeCallback);
+}
+
+
+/// MORE ADVANCED SOLUTION ///
+// const glyphStates = {
+//   "♡": "♥",
+//   "♥": "♡"
+// };
+// const colorStates = {
+//   "red" : "",
+//   "": "red"
+// };
+// const articleHearts = document.querySelectorAll(".like-glyph");
+// function likeCallback(e) {
+//   const heart = e.target;
+//   mimicServerCall("bogusUrl", {forceFailure: true})
+//     .then(function(){
+//        heart.innerText = glyphStates[heart.innerText];
+//        heart.style.color = colorStates[heart.style.color];
+//     })
+//     .catch(function(error) {
+//       const modal = document.getElementById("modal");
+//       modal.className = "";
+//       modal.innerText = error;
+//       setTimeout(() =>  modal.className = "hidden", 3000);
+//     });
+// }
+// for (const glyph of articleHearts) {
+//   glyph.addEventListener("click", likeCallback);
+// }
 
 
 
